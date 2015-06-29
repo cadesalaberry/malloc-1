@@ -5,16 +5,16 @@
 ## Login   <dwarfnet@epitech.net>
 ## 
 ## Started on  Thu Jun 18 16:09:09 2015 DwarfNet
-## Last update Thu Jun 25 17:29:21 2015 DwarfNet
+## Last update Mon Jun 29 14:54:43 2015 DwarfNet
 ##
 
 CC	= gcc
 
 RM	= rm -f
 
-CFLAGS	= -W -fPIC -Wall -Wextra -I./include/ -g3 ##-Werror
+CFLAGS	= -fPIC -W -Wall -Wextra -Werror -I./include/ -g3
 
-NAME	= libmy_malloc_i386-linux.so
+NAME	= libmy_malloc_$(HOSTTYPE).so
 
 SRC	= my_malloc.c \
 	  my_structure.c \
@@ -31,13 +31,16 @@ all:	$(NAME)
 
 $(NAME):	$(OBJ)
 	$(CC) -shared -o $(NAME) $(OBJ)
-
+	ln -f -s libmy_malloc_$(HOSTTYPE).so libmy_malloc.so
 clean:
 	$(RM) $(OBJ)
 
 fclean:	clean
 	$(RM) $(NAME)
 
-re:	fclean all
+lclean:	fclean
+	$(RM) libmy_malloc.so
 
-.PHONY:	all clean fclean re
+re:	lclean all
+
+.PHONY:	all clean fclean lclean re
